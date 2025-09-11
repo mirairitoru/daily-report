@@ -1,17 +1,27 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFirestore, collection, getDocs, addDoc} from "firebase/firestore";
+import { fetchHistoryData } from "../my-modules/fetch-history-data"
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCJGq3uD7EPGY4ShSKFv_Z6qKSLWF_pdq4",
-  authDomain: "daily-report-f9436.firebaseapp.com",
-  projectId: "daily-report-f9436",
-  storageBucket: "daily-report-f9436.firebasestorage.app",
-  messagingSenderId: "341472883766",
-  appId: "1:341472883766:web:7e789d9309aad5c5979497"
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.APP_ID
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+// Cloud Firestoreの初期化
+const db = getFirestore(app);
+
+// Cloud Firestoreから取得したデータを表示
+if(document.getElementById("js-history")) {
+    fetchHistoryData(getDocs, collection, db);
+}
+
+// Cloud Firestoreにデータを送信
+if(document.getElementById("js-form")) {
+    document.getElementById("js-form").addEventListener("submit", (e) => submitData(e, addDoc, collection, db));
+};
