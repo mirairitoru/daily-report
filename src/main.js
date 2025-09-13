@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, addDoc} from "firebase/firestore";
 import { fetchHistoryData } from "../my-modules/fetch-history-data"
+import { submitData } from "../my-modules/submit-data";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
